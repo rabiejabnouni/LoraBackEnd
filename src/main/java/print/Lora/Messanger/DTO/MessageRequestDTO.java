@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 
 public class MessageRequestDTO {
     private String message;
+    private long conversionId;
+    private String sender;
 }

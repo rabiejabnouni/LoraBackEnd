@@ -50,4 +50,15 @@ public class RegistrationController {
         return appUserService.getAll();
     }
 
+    @GetMapping("/enable")
+    public boolean enable(@RequestParam String email){
+        System.out.println(email);
+        return  appUserService.enableAppUser(email);
+    }
+
+    @DeleteMapping("/delete")
+    public void delete(@RequestParam String email){
+        appUserService.delete(email);
+    }
+
 }

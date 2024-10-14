@@ -32,7 +32,10 @@ public class ForgetService {
 
     public String forget(String username) {
         AppUser user = appUserService.UserByUsername(username);
-
+        if(user==null){
+            throw new RuntimeException("user not found");
+        }
+        appUserRepository.enableAppUser(username,false);
         String token = UUID.randomUUID().toString();
 
         ConfirmationToken confirmationToken = new ConfirmationToken(
@@ -41,6 +44,7 @@ public class ForgetService {
                 LocalDateTime.now().plusMinutes(15),
                 user
         );
+
         confirmationTokenService.saveConfirmationToken(
                 confirmationToken);
 

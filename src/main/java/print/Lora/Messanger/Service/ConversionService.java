@@ -25,4 +25,10 @@ public interface ConversionService {
     void addUserToConversation(long conversationId, long userId);
 
     ConversionRespanceDTO EntityToRespanceDto(ConversionEntity cnv);
+
+    ConversionRespanceDTO getConversion(String creator, String other);
+
+    List<ConversionRespanceDTO> getConversionByCreator(String creator);
+
+    void delete(long id);
 }

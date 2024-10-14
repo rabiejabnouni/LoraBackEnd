@@ -6,11 +6,15 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import print.Lora.Messanger.Model.ConversionEntity;
 import print.Lora.Messanger.Model.MessageEntity;
 import print.Lora.Post.Entity.Post;
+import print.Lora.Post.Entity.Reunion;
 import print.Lora.React.Model.CommentEntity;
 import print.Lora.React.Model.LikeEntity;
+import print.Lora.TimeTable.Entity.ClassEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,6 +47,24 @@ public class AppUser implements UserDetails  {
     private AppUserRole appUserRole;
     private Boolean locked = false;
     private Boolean enabled = false;
+    private LocalDateTime birthDay;
+    private String imageProfilPath="https://static.turbosquid.com/Preview/001214/650/2V/boy-cartoon-3D-model_D.jpg";
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<AppUser> friends = new ArrayList<>();
+
+
+    @ManyToOne
+    @JoinColumn(name = "class_id")  // Fix the class mapping
+    private ClassEntity classEntity;
+
+
 
     public AppUser(String firstName,
                    String lastName,

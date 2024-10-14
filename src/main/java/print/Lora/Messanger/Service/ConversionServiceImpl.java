@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import print.Lora.Auth.Model.AppUser;
 import print.Lora.Auth.Rpository.AppUserRepository;
+import print.Lora.Auth.Service.AppUserService;
+import print.Lora.Messanger.DTO.ConversionMapper;
 import print.Lora.Messanger.DTO.ConversionRespanceDTO;
+import print.Lora.Messanger.DTO.MessageMapper;
 import print.Lora.Messanger.Model.ConversionEntity;
 import print.Lora.Messanger.Model.MessageEntity;
 import print.Lora.Messanger.Repository.ConversionRepository;
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ConversionServiceImpl implements ConversionService {
@@ -22,10 +26,18 @@ public class ConversionServiceImpl implements ConversionService {
     private ConversionRepository conversionRepository;
 
     @Autowired
+    private ConversionMapper conversionMapper;
+    @Autowired
+    private AppUserService appUserService;
+    @Autowired
     private AppUserRepository userRepository;  // Pour récupérer les utilisateurs via leurs IDs
     @Autowired
     @Lazy
     private MessageService messageService;
+
+    @Autowired
+    private MessageMapper messageMapper;
+
 
     // Créer une nouvelle conversation en utilisant les IDs des utilisateurs
     @Override
@@ -54,9 +66,7 @@ public class ConversionServiceImpl implements ConversionService {
     public List<ConversionRespanceDTO> getAllConversations() {
         List<ConversionEntity> cnvs = conversionRepository.findAll();
         List<ConversionRespanceDTO> list = new ArrayList<>();
-        for (ConversionEntity cnv : cnvs) {
-            list.add(EntityToRespanceDto(cnv));
-        }
+        list = cnvs.stream().map(conversionMapper::entityToRespance).collect(Collectors.toList());
         return list;
     }
 
@@ -98,10 +108,37 @@ public class ConversionServiceImpl implements ConversionService {
         ConversionRespanceDTO cnvD = new ConversionRespanceDTO();
         cnvD.setCreateAt(cnv.getCreateAt());
         for (MessageEntity msg : cnv.getMessages()) {
-            cnvD.getMessageRespanceDTOS().add(messageService.EntityToRespance(msg));
+            cnvD.getMessageRespanceDTOS().add(messageMapper.entityToRespance(msg));
         }
         cnvD.setDescription(cnv.getDescription());
         cnvD.setLastMsgAt(cnv.getLastmsgAt());
         return cnvD;
     }
+    @Override
+    public ConversionRespanceDTO getConversion(String creator, String other){
+        AppUser otherUser = appUserService.UserByUsername(other);
+        ConversionEntity conversion = conversionRepository.findByCreatorAndOtherUser(creator,otherUser);
+        if(conversion!=null){
+            System.out.println("found conversion");
+            return conversionMapper.entityToRespance(conversion);
+        }
+        List<Long>  id_user= new  ArrayList<>();
+        id_user.add(otherUser.getId());
+        System.out.println("create a conversion");
+         return createConversation(creator,id_user);
+    }
+    @Override
+    public List<ConversionRespanceDTO> getConversionByCreator(String creator){
+        List<ConversionEntity> conversion = conversionRepository.findByCreator(creator);
+        if(conversion!=null){
+            System.out.println("found conversion");
+            return conversion.stream().map(conversionMapper::entityToRespance).collect(Collectors.toList());
+        }
+
+        return null;
+    }
+   @Override
+    public void delete(long id){
+        conversionRepository.deleteById(id);
+   }
 }

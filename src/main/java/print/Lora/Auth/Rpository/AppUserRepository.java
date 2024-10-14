@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import print.Lora.Auth.Model.AppUser;
+import print.Lora.TimeTable.Entity.ClassEntity;
 
 import java.util.Optional;
 
@@ -19,13 +20,22 @@ public interface AppUserRepository
     @Transactional
     @Modifying
     @Query("UPDATE AppUser a " +
-            "SET a.enabled = TRUE WHERE a.email = ?1")
-    int enableAppUser(String email);
+            "SET a.enabled = ?2 WHERE a.email = ?1")
+    int enableAppUser(String email,boolean isEnable);
 
     @Transactional
     @Modifying
     @Query("UPDATE AppUser a " +
             "SET a.password =?2  WHERE a.email = ?1")
     int forgetAppUser(String email,String password);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM AppUser a WHERE a.email = ?1")
+    int deleteByEmail(String email);
+
+
+    @Query("SELECT a.classEntity FROM AppUser a WHERE a.email=?1 ")
+    Optional<ClassEntity> findClassByUsername(String userName);
 }
 

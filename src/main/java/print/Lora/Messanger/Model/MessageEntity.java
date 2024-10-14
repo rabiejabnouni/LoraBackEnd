@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import print.Lora.Auth.Model.AppUser;
-import print.Lora.Auth.Model.UserEntity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

@@ -11,6 +11,7 @@ import print.Lora.Post.Entity.Post;
 import print.Lora.Post.Entity.Reunion;
 import print.Lora.React.Model.CommentEntity;
 import print.Lora.React.Model.LikeEntity;
+import print.Lora.TimeTable.Entity.ClassEntity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -23,18 +24,14 @@ import java.util.List;
 @AllArgsConstructor
 public class UserEntity extends AppUser implements Serializable {
 
-    private LocalDateTime birthDay;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    private List<UserEntity> friends = new ArrayList<>();
 
     @ManyToMany(mappedBy = "betwinUsers")
     private List<ConversionEntity> conversions = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "class_id")  // Fix the class mapping
+    private ClassEntity classEntity;
+
 
     @OneToMany(mappedBy = "sender")
     private List<MessageEntity> sentMessages = new ArrayList<>();
@@ -51,7 +48,6 @@ public class UserEntity extends AppUser implements Serializable {
     @ManyToMany(mappedBy = "partisans")
     private List<Reunion> emissions = new ArrayList<>();
 
-    private String imageProfilPath;
 
 
 }

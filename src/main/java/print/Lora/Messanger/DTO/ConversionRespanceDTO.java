@@ -12,7 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConversionRespanceDTO {
-
+    private  long id;
+    private List<String> otherPhoto;
+    private  List<String> familyName;
+    private List<String> lastName;
     private String description;
     private LocalDateTime createAt;
     private LocalDateTime lastMsgAt;

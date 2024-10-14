@@ -22,17 +22,27 @@ public class ConversationController {
     @PostMapping("/create")
     public ResponseEntity<ConversionRespanceDTO> createConversation(@RequestParam String createdBy,
                                                                @RequestBody List<Long> userIds) {
+        System.out.println(createdBy);
         ConversionRespanceDTO conversation = conversionService.createConversation(createdBy, userIds);
         return ResponseEntity.ok(conversation);
     }
 
-    // Récupérer toutes les conversations
     @GetMapping
+    public ResponseEntity<ConversionRespanceDTO> getByUserName(@RequestParam String create,@RequestParam String other){
+        ConversionRespanceDTO respanceDTO = conversionService.getConversion(create,other);
+        return  ResponseEntity.ok(respanceDTO);
+    }
+    // Récupérer toutes les conversations
+    @GetMapping("/getAll")
     public ResponseEntity<List<ConversionRespanceDTO>> getAllConversations() {
         List<ConversionRespanceDTO> conversations = conversionService.getAllConversations();
         return ResponseEntity.ok(conversations);
     }
-
+    @GetMapping("/getByCreator")
+    public ResponseEntity<List<ConversionRespanceDTO>> getConversationByCreator(@RequestParam String creator){
+        List<ConversionRespanceDTO> conversions= conversionService.getConversionByCreator(creator);
+        return ResponseEntity.ok(conversions);
+    }
     // Récupérer une conversation par ID
     @GetMapping("/{conversationId}")
     public ResponseEntity<ConversionRespanceDTO> getConversationById(@PathVariable long conversationId) {
@@ -46,5 +56,9 @@ public class ConversationController {
                                                         @RequestParam long userId) {
         conversionService.addUserToConversation(conversationId, userId);
         return ResponseEntity.ok("User added to conversation");
+    }
+    @DeleteMapping
+    public void delete(@RequestParam long id){
+        conversionService.delete(id);
     }
 }

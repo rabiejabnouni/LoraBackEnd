@@ -18,7 +18,7 @@ public class MessageRespanceDTO {
 
     private String context;
 
-    private long senderId;
+    private String senderId;
 
     private long conversionId;
 }

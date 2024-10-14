@@ -18,7 +18,12 @@ public class GoogleTokenValidator {
     private String googleClientId;
 
     @Autowired
+    private ConfirmationTokenService confirmationTokenService;
+    @Autowired
     private AppUserRepository appUserRepository;
+
+    @Autowired
+    private RegistrationService registrationService;
 
     public ConfirmationToken loginWithApiGoogle(String email) {
         System.out.println(email);
@@ -35,8 +40,8 @@ public class GoogleTokenValidator {
                 LocalDateTime.now().plusDays(15),
                 user
         );
-
-
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+       registrationService.confirmToken(newToken);
         return confirmationToken ;
     }
 }

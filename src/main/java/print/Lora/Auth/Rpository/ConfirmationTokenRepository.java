@@ -23,5 +23,7 @@ public interface ConfirmationTokenRepository
             "SET c.confirmedAt = ?2, c.confirmed = true " +
             "WHERE c.token = ?1")
     int updateConfirmedAt(String token, LocalDateTime confirmedAt);
+    @Transactional
+    void deleteByAppUserId(Long appUserId);
 
 }
