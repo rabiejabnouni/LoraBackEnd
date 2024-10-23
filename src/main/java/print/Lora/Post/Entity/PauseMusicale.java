@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import print.Lora.notifications.DTO.Entity.JournalEntity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -21,10 +22,21 @@ public class PauseMusicale extends Post implements Serializable {
 
     private Boolean played = false;
 
-    private List<String> pathImage;
 
-    @Column(nullable = false)
-    private List<String> chansons;
+    @Lob
+    private byte[] imageData;
+
+
+    @Lob
+    private byte[]  songPath;
+
+    private long length;
+
+
+    @ManyToOne
+    @JoinColumn(name = "journal_id") // Reference to the JournalEntity
+    private JournalEntity journal;
+
 
 
 

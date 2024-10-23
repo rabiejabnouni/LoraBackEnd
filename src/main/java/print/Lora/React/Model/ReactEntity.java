@@ -38,6 +38,10 @@ public class ReactEntity implements Serializable {
         this.reactType = type;
     }
 
+    public ReactEntity(ReactType reactType) {
+        this.reactType = reactType;
+    }
+
     public ReactEntity(List<LikeEntity> likes, List<CommentEntity> comments, int score) {
         this.likes = likes;
         this.comments = comments;

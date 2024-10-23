@@ -13,8 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import print.Lora.Auth.Service.AppUserService;
 
 import java.util.Arrays;
@@ -30,11 +28,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityContext((context) -> context.requireExplicitSave(false)) // No need for explicit saving of security context
-                .csrf((csrf) -> csrf.disable()) // Disable CSRF
+                .securityContext((context) -> context.requireExplicitSave(false))
+                .csrf((csrf) -> csrf.disable()) // Désactiver CSRF
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/**").permitAll() // Permet l'accès à la validation sans authentification
-                        .requestMatchers("/api/**").permitAll() // Permet l'accès à toutes les autres API
+                        .requestMatchers("/api/**").permitAll() // Permet l'accès à toutes les API
+                        .requestMatchers("/app/**").permitAll()
+                        .requestMatchers("/gs-guide-websocket/**").permitAll()// Permet l'accès à l'endpoint WebSocket
                         .anyRequest().authenticated() // Authentifier toutes les autres requêtes
                 )
                 .cors((cors) -> cors.configurationSource(corsConfigurationSource())); // Configure CORS
@@ -56,24 +55,12 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200") // Allow Angular frontend
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
-            }
-        };
-    }
-
-    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Allow Angular frontend
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Autoriser le frontend Angular
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true); // Autoriser les cookies si nécessaire
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

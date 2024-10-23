@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ConversionRespanceDTO {
     private  long id;
-    private List<String> otherPhoto;
+    private List<String> SendTo;
     private  List<String> familyName;
     private List<String> lastName;
     private String description;

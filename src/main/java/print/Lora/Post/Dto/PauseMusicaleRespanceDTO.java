@@ -9,12 +9,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PauseMusicaleRespanceDTO {
-
+    private  long id;
+    private long  length;
     private String sender;
-    private ReactRespanceDTO react;
-    private LocalDateTime plyedAt;
+    private long react;
+    private LocalDateTime CreateAt;
+    private LocalDateTime playedAt;
+    private Boolean isPlayed;
     private String description;
-    private List<String> imagePath;
-    private List<String> songPath;
-
+    private byte[] imageData;
+    private byte[]  songPath;
 }

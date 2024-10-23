@@ -19,14 +19,14 @@ public class MessageEntity implements Serializable {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id", nullable = false) // This creates the foreign key column `sender_id`
+    @JoinColumn(name = "sender_id", nullable = false)
     private AppUser sender;
 
     @ManyToOne
-    @JoinColumn(name = "conversion_id", nullable = false) // Foreign key for conversion
+    @JoinColumn(name = "conversion_id", nullable = false)
     private ConversionEntity conversion;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 6500)
     private String message;
 
     @Column(nullable = false)

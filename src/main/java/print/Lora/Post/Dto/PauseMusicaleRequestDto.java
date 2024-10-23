@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class PauseMusicaleRequestDto  {
 
-    private long sender;
+    private String sender;
     private String description;
-    private List<String> imagePath;
-    private List<String> songPath;
-
+    private MultipartFile imageData;
+    private MultipartFile  songPath;
+    private long length;
 }

@@ -11,7 +11,9 @@ import print.Lora.Messanger.Service.ConversionService;
 import print.Lora.Service.ContexteService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageMapper {
@@ -21,8 +23,22 @@ public class MessageMapper {
     private AppUserService appUserService;
     @Autowired
     private ConversionRepository conversionRepository;
-    public MessageRespanceDTO entityToRespance(MessageEntity entity){
-        MessageRespanceDTO respanceDTO= new MessageRespanceDTO();
+    public MessageRespanceDTO entityToRespance(MessageEntity entity) {
+        ConversionEntity conversion = conversionRepository.findById(entity.getConversion().getId()).orElseThrow(() ->
+                new RuntimeException("Conversion not found with id: " + entity.getConversion().getId())
+        );
+
+        MessageRespanceDTO respanceDTO = new MessageRespanceDTO();
+
+        List<String> sendTOList = conversion.getBetwinUsers().stream()
+                .map(AppUser::getEmail)
+                .collect(Collectors.toList());
+
+        // Remove the sender's email
+        sendTOList.remove(entity.getSender().getEmail());
+
+        respanceDTO.setSendTO(sendTOList);
+        respanceDTO.setConversionId(entity.getConversion().getId());
         respanceDTO.setMessage(entity.getMessage());
         respanceDTO.setVuAt(entity.getVuAt());
         respanceDTO.setSenderId(entity.getSender().getEmail());
@@ -30,6 +46,7 @@ public class MessageMapper {
 
         return respanceDTO;
     }
+
     public MessageEntity requestToEntity(MessageRequestDTO requestDTO){
         Optional<ConversionEntity> conversion= conversionRepository.findById(requestDTO.getConversionId());
         if (conversion.isEmpty()){

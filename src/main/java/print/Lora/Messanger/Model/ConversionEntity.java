@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -27,7 +28,6 @@ public class ConversionEntity implements Serializable {
     )
     private List<AppUser> betwinUsers = new ArrayList<>();
 
-    private String createBy;
 
     @Column(nullable = false)
     private String description;
@@ -35,8 +35,11 @@ public class ConversionEntity implements Serializable {
     @Column(nullable = false)
     private LocalDateTime createAt;
 
-    @OneToMany(mappedBy = "conversion", cascade = CascadeType.ALL)
-    private List<MessageEntity> messages = new ArrayList<>();
+
+        @OneToMany(fetch = FetchType.EAGER, mappedBy = "conversion")
+        private List<MessageEntity> messages;
+
+
 
     @Column(nullable = false)
     private LocalDateTime lastmsgAt;
@@ -47,9 +50,13 @@ public class ConversionEntity implements Serializable {
     }
 
     public ConversionEntity(String createBy) {
-        this.createBy = createBy;
         this.createAt = LocalDateTime.now();
         this.description = " ";
         this.lastmsgAt = LocalDateTime.now();
+    }
+
+    public ConversionEntity(List<AppUser> betwinUsers) {
+        this.betwinUsers = betwinUsers;
+        this.description="hi";
     }
 }

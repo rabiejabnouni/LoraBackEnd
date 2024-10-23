@@ -17,5 +17,4 @@ public class EmissionRequestDto {
     private long reactId;
     private String contexte;
 
-    // Getters and setters
 }
