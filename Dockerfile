@@ -11,4 +11,4 @@ COPY target/lorabackend-*.jar app.jar
 EXPOSE 8080
 
 # Specify the entry point
-ENTRYPOINT ["java", "-cp", "app.jar", "print.LoraServeurAuth.LoraServeurAuthApplication"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
