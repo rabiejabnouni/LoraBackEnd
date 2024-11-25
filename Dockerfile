@@ -18,7 +18,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built .jar file from the build stage
-COPY --from=build /app/target/lorabackend-*.jar app.jar
+COPY --from=build /app/target/*.jar /app
 
 # Expose the port the app runs on (default for Spring Boot is 8080)
 EXPOSE 8080
