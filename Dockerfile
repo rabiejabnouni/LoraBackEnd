@@ -1,25 +1,27 @@
-# Use Maven image to build the application
-FROM maven:3.9.9-eclipse-temurin-17 AS build
-# Set working directory
+# Step 1: Use an official Maven image to build the app
+FROM maven:3.8.6-openjdk-17-slim AS build
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy source code and pom.xml
-COPY . .
+# Copy the pom.xml and the source code
+COPY pom.xml /app
+COPY src /app/src
 
-# Build the Spring Boot application
+# Build the Spring Boot application using Maven
 RUN mvn clean package -DskipTests
 
-# Use JDK to run the application
+# Step 2: Create a new stage for the final image
 FROM openjdk:17-jdk-slim
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy the built .jar file from the build stage
+COPY --from=build /app/target/lorabackend-*.jar app.jar
 
-# Expose the default Spring Boot port
+# Expose the port the app runs on (default for Spring Boot is 8080)
 EXPOSE 8080
 
-# Specify the entry point
+# Specify the entry point for the container
 ENTRYPOINT ["java", "-jar", "app.jar"]
