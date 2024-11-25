@@ -28,8 +28,8 @@ public class PauseMusicaleServiceImpl implements PauseMusicaleService {
     private ReactRepository reactService;
 
     @Override
-    public PauseMusicale createPauseMusicale(PauseMusicaleRequestDto requestDto) throws IOException {
-
+    public PauseMusicale createPauseMusicale(PauseMusicaleRequestDto requestDto)  {
+        System.out.println(requestDto);
         PauseMusicale pauseMusicale = pauseMusicaleMapper.RequestToEntity(requestDto);
           pauseMusicale=pauseMusicaleRepository.save(pauseMusicale);
 
@@ -51,7 +51,7 @@ public class PauseMusicaleServiceImpl implements PauseMusicaleService {
     }
 
     @Override
-    public PauseMusicale updatePauseMusicale(Long id, PauseMusicaleRequestDto requestDto) throws IOException {
+    public PauseMusicale updatePauseMusicale(Long id, PauseMusicaleRequestDto requestDto)  {
         Optional<PauseMusicale> existingPauseMusicale = pauseMusicaleRepository.findById(id);
         if (existingPauseMusicale.isPresent()) {
             PauseMusicale updatedPauseMusicale = pauseMusicaleMapper.RequestToEntity(requestDto);

@@ -15,7 +15,7 @@ public class PauseMusicaleRequestDto  {
 
     private String sender;
     private String description;
-    private MultipartFile imageData;
-    private MultipartFile  songPath;
+    private String imagePath;
+    private String songPath;
     private long length;
 }

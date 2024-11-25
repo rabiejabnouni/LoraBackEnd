@@ -76,6 +76,7 @@ public class MessageController {
     // Récupération des messages d'une conversation spécifique
     @GetMapping("/conversation")
     public ResponseEntity<List<MessageRespanceDTO>> getMessagesByConversation(@RequestParam long conversionId) {
+        System.out.println(conversionId);
         List<MessageRespanceDTO> messages = messageService.getMessagesByConversation(conversionId); // Récupère les messages
         return ResponseEntity.ok(messages); // Retourne les messages de la conversation en réponse
     }

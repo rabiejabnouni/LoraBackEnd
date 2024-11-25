@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PauseMusicaleService {
-    PauseMusicale createPauseMusicale(PauseMusicaleRequestDto requestDto) throws IOException;
+    PauseMusicale createPauseMusicale(PauseMusicaleRequestDto requestDto) ;
     List<PauseMusicaleRespanceDTO> getAllPauseMusicales();
     Optional<PauseMusicale> getPauseMusicaleById(Long id);
-    PauseMusicale updatePauseMusicale(Long id, PauseMusicaleRequestDto requestDto) throws IOException;
+    PauseMusicale updatePauseMusicale(Long id, PauseMusicaleRequestDto requestDto);
     void deletePauseMusicale(Long id);
     PauseMusicaleRespanceDTO convertToDto(PauseMusicale pauseMusicale);
 

@@ -28,22 +28,24 @@ public class PauseMusicaleMapper {
     private ReactMapper reactMapper;
     @Autowired
     private ReactRepository reactRepository;
-    public PauseMusicale RequestToEntity(PauseMusicaleRequestDto request) throws IOException {
-        PauseMusicale pause = new PauseMusicale();
-        System.out.println(pause);
-        AppUser sender = appUserService.UserByUsername(request.getSender());
-        ReactEntity react = new ReactEntity( ReactType.post);
-        ReactEntity newReact =reactRepository.save(react);
-        pause.setReactId(newReact.getIdr());
-        pause.setSongPath( convertMultipartFileToByteArray(request.getSongPath()));
-        pause.setImageData(convertMultipartFileToByteArray(request.getImageData()));
-        pause.setCreatedAt(LocalDateTime.now());
-        pause.setPlayed(false);
-        pause.setSender(sender);
-        pause.setLength(request.getLength());
+    public PauseMusicale RequestToEntity(PauseMusicaleRequestDto request) {
+        System.out.println("heloo");
 
-        pause.setDescription(request.getDescription());
-        pause.setContexte(contexteService.contexte(request.getDescription()));
+        PauseMusicale pause = new PauseMusicale(LocalDateTime.now()
+                                   ,appUserService.UserByUsername(request.getSender())
+                                   ,request.getDescription()
+                                   ,0
+                                   ,contexteService.contexte(request.getDescription())
+                                   ,LocalDateTime.now()//TODO FIND THE TIME OF PLAY
+                                    ,Boolean.FALSE
+                                     ,request.getImagePath()
+                                     ,request.getSongPath()
+                                     ,request.getLength()
+        );
+        System.out.println("heloo");
+
+
+
 
         return pause;
 
@@ -58,7 +60,7 @@ public class PauseMusicaleMapper {
         respance.setCreateAt(pause.getCreatedAt());
         respance.setDescription(pause.getDescription());
         respance.setSender(pause.getSender().getUsername());
-        respance.setImageData(pause.getImageData());
+        respance.setImagePath(pause.getImageData());
         respance.setSongPath(pause.getSongPath());
         respance.setReact(pause.getReactId());
         respance.setIsPlayed(pause.getPlayed());
@@ -66,11 +68,5 @@ public class PauseMusicaleMapper {
 
         return respance;
     }
-    public  byte[] convertMultipartFileToByteArray(MultipartFile file) throws IOException {
-        if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("Le fichier est vide ou nul.");
-        }
-        // Utilise la méthode getBytes() pour convertir en byte[]
-        return file.getBytes();
-    }
+
 }

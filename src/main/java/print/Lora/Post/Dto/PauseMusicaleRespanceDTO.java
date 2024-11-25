@@ -17,6 +17,6 @@ public class PauseMusicaleRespanceDTO {
     private LocalDateTime playedAt;
     private Boolean isPlayed;
     private String description;
-    private byte[] imageData;
-    private byte[]  songPath;
+    private String imagePath;
+    private String  songPath;
 }

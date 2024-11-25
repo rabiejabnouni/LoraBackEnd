@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequestDto {
-    private Long senderId;  // ID de l'utilisateur qui envoie le post
+    private Long senderId;
     private String description;
     private long reactId;
     private String contexte;
+    private String urlImage;
 }

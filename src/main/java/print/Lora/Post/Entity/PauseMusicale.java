@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import print.Lora.Auth.Model.AppUser;
 import print.Lora.notifications.DTO.Entity.JournalEntity;
 
 import java.io.Serializable;
@@ -23,12 +24,10 @@ public class PauseMusicale extends Post implements Serializable {
     private Boolean played = false;
 
 
-    @Lob
-    private byte[] imageData;
+    private String imageData;
 
 
-    @Lob
-    private byte[]  songPath;
+    private String  songPath;
 
     private long length;
 
@@ -38,6 +37,14 @@ public class PauseMusicale extends Post implements Serializable {
     private JournalEntity journal;
 
 
-
-
+    public PauseMusicale( LocalDateTime createdAt, AppUser sender, String description, long reactId
+            , String contexte, LocalDateTime dateDePause, Boolean played,
+                         String imageData, String songPath, long length) {
+        super(createdAt, sender, description, reactId, contexte);
+        this.dateDePause = dateDePause;
+        this.played = played;
+        this.imageData = imageData;
+        this.songPath = songPath;
+        this.length = length;
+    }
 }

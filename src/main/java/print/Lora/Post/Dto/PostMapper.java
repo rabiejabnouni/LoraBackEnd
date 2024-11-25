@@ -50,7 +50,6 @@ public class PostMapper {
         respanceDto.setDescription(post.getDescription());
         respanceDto.setCreatedAt(post.getCreatedAt());
         respanceDto.setContexte(post.getContexte());
-
         // Récupérer et mapper la réaction associée au post
         ReactEntity reactEntity = reactService.findById(post.getReactId());
         respanceDto.setReact(reactMapper.EntityToRespance(reactEntity));

@@ -37,19 +37,15 @@ public class PauseMusicaleController {
     // Endpoint to create a new PauseMusicale
 
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping("/create")
     public ResponseEntity<PauseMusicaleRespanceDTO> Create(
-            @RequestBody PauseMusicaleRequestDto requestDto) throws IOException {
+            @RequestBody PauseMusicaleRequestDto requestDto)  {
         PauseMusicale pauseMusicale = pauseMusicaleService.createPauseMusicale(requestDto);
         PauseMusicaleRespanceDTO responseDto = pauseMusicaleService.convertToDto(pauseMusicale);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
-    @PostMapping("/save")
-    public  void saveImage(@RequestParam("image") MultipartFile image){
-        System.out.println("image saved");
-    }
-    // Endpoint to get all PauseMusicales
+
     @GetMapping("/all")
     public ResponseEntity<List<PauseMusicaleRespanceDTO>> getAllPauseMusicales() {
         List<PauseMusicaleRespanceDTO> pauseMusicales = pauseMusicaleService.getAllPauseMusicales();

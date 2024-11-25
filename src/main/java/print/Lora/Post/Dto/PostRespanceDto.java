@@ -18,5 +18,6 @@ public class PostRespanceDto {
     private LocalDateTime createdAt;
     private ReactRespanceDTO react;  // Réaction associée au post
     private String contexte;
+    private String urlImage;
 }
 

@@ -39,6 +39,11 @@ public class Post implements Serializable {
     @Column(nullable = false)
     private String contexte;
 
-
-
+    public Post(LocalDateTime createdAt, AppUser sender, String description, long reactId, String contexte) {
+        this.createdAt = createdAt;
+        this.sender = sender;
+        this.description = description;
+        this.reactId = reactId;
+        this.contexte = contexte;
+    }
 }
