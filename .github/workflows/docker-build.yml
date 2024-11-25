@@ -21,29 +21,40 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Step 3: Verify the existence of the JAR file
-      - name: Verify JAR file exists
-        run: |
-          # Check if the JAR file exists in the target directory
-          if [ ! -f target/*.jar ]; then
-            echo "JAR file not found in target directory. Exiting."
-            exit 1
-          fi
-          echo "JAR file found: $(ls target/lorabackend-*.jar)"
-      
-      # Step 4: Build the Docker image
+      # Step 3: Build the Docker image
       - name: Build Docker Image
         run: |
           docker build -t seifmsd464325/lorabackend:latest .
 
-      # Step 5: Log in to Docker Hub
+      # Step 4: Create a container from the built image (no need to start it)
+      - name: Create Docker Container
+        run: |
+          docker create --name temp-container seifmsd464325/lorabackend:latest
+
+      # Step 5: Copy JAR files from the container to the host machine
+      - name: Copy JAR files from container
+        run: |
+          docker cp temp-container:/app/*.jar ./app
+
+      # Step 6: List JAR files copied to the host machine
+      - name: List JAR files in /app directory
+        run: |
+          echo "Listing JAR files in /app directory:"
+          ls ./app/*.jar
+
+      # Step 7: Remove the temporary container
+      - name: Remove Docker Container
+        run: |
+          docker rm temp-container
+
+      # Step 8: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 6: Push the Docker image to Docker Hub
+      # Step 9: Push Docker image to Docker Hub
       - name: Push Docker Image
         run: |
           docker push seifmsd464325/lorabackend:latest
