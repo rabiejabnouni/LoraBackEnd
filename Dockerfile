@@ -1,15 +1,14 @@
-# Step 1: Use an official Java runtime as the base image
+# Use an official JDK image
 FROM openjdk:17-jdk-slim
 
-# Step 2: Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Step 3: Copy the JAR file from the target folder
-# The JAR file will be generated in the `target` directory after the Maven build
-COPY target/*.jar app.jar
+# Copy the Spring Boot JAR file
+COPY target/lorabackend-*.jar app.jar
 
-# Step 4: Expose the port your Spring Boot application listens on (default is 8080)
+# Expose the default Spring Boot port
 EXPOSE 8080
 
-# Step 5: Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Specify the entry point
+ENTRYPOINT ["java", "-cp", "app.jar", "print.LoraServeurAuth.LoraServeurAuthApplication"]
