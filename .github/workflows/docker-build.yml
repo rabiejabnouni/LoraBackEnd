@@ -35,5 +35,5 @@ jobs:
       # Step 5: Build and push Docker image
       - name: Build and Push Docker Image
         run: |
-          docker build -t your-dockerhub-username/lorabackend:latest .
-          docker push your-dockerhub-username/lorabackend:latest
+          docker build -t seifmsd464325/lorabackend:latest .
+          docker push seifmsd464325/lorabackend:latest
