@@ -104,7 +104,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Main-Class>print.LoraServeurAuth.LoraServeurAuthApplication</Main-Class>
+							<Main-Class>print.Lora.LoraEniCarthageApplication</Main-Class>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -115,6 +115,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+        			<mainClass>print.Lora.LoraEniCarthageApplication</mainClass>
+    			</configuration>
 			</plugin>
 
 		</plugins>

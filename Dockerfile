@@ -9,6 +9,7 @@ COPY src ./src
 
 # Build the Spring Boot application using Maven
 RUN mvn clean package -DskipTests -e
+RUN ls -R /app/target
 # Step 2: Create a new stage for the final image
 FROM eclipse-temurin:17-jre-jammy
 # Set the working directory inside the container
