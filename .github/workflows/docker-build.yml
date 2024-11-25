@@ -21,11 +21,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Step 3: List JAR files in the /app/ directory (from the Docker build stage)
-      - name: List JAR files in /app directory
+      # Step 3: Verify the existence of the JAR file
+      - name: Verify JAR file exists
         run: |
-          echo "Listing JAR files in /app directory:"
-          ls /app/*.jar
+          # Check if the JAR file exists in the target directory
+          if [ ! -f target/*.jar ]; then
+            echo "JAR file not found in target directory. Exiting."
+            exit 1
+          fi
+          echo "JAR file found: $(ls target/lorabackend-*.jar)"
       
       # Step 4: Build the Docker image
       - name: Build Docker Image
